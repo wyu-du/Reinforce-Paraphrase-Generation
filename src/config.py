@@ -6,12 +6,12 @@ root_dir = os.path.expanduser("~")
 print_interval = 1
 save_model_iter = 10
 
-train_data_path = os.path.join(root_dir, "RL-pointer-generator/data/quora/chunked/train_*")
-eval_data_path = os.path.join(root_dir, "RL-pointer-generator/data/quora/chunked/val_*")
-decode_data_path = os.path.join(root_dir, "RL-pointer-generator/data/quora/chunked/test_*")
-vocab_path = os.path.join(root_dir, "RL-pointer-generator/data/quora/vocab")
-cluster_path = os.path.join(root_dir, "RL-pointer-generator/data/quora/paths")
-log_root = os.path.join(root_dir, "RL-pointer-generator/log_test")
+train_data_path = os.path.join(root_dir, "Reinforce-PG/data/quora/chunked/train_*")
+eval_data_path = os.path.join(root_dir, "Reinforce-PG/data/quora/chunked/val_*")
+decode_data_path = os.path.join(root_dir, "Reinforce-PG/data/quora/chunked/test_*")
+vocab_path = os.path.join(root_dir, "Reinforce-PG/data/quora/vocab")
+cluster_path = os.path.join(root_dir, "Reinforce-PG/data/quora/paths")
+log_root = os.path.join(root_dir, "Reinforce-PG/log_test")
 
 # Hyperparameters
 hidden_dim= 256
