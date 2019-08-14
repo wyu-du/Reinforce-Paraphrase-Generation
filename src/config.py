@@ -3,8 +3,8 @@ import os
 root_dir = os.path.expanduser("~")
 #root_dir = os.path.join(root_dir, "Desktop")
 
-print_interval = 1
-save_model_iter = 10
+print_interval = 100
+save_model_iter = 500
 
 train_data_path = os.path.join(root_dir, "Reinforce-PG/data/quora/chunked/train_*")
 eval_data_path = os.path.join(root_dir, "Reinforce-PG/data/quora/chunked/val_*")
@@ -29,12 +29,13 @@ k1 = 0.9999
 k2 = 3000.
 
 max_iterations = 5000000
-lr=1e-5
+lr = 1e-5
 pointer_gen = True
 is_coverage = False
-lr_coverage=0.15
+lr_coverage = 0.15
 cov_loss_wt = 1.0
-rand_unif_init_mag=0.02
-trunc_norm_init_std=1e-4
+max_grad_norm = 2.0
+rand_unif_init_mag = 0.02
+trunc_norm_init_std = 1e-4
 eps = 1e-12
-use_gpu=True
+use_gpu = True
