@@ -4,7 +4,6 @@ import os
 import time
 import argparse
 import shutil
-import logging
 
 import torch
 import numpy as np
@@ -12,9 +11,6 @@ from model import Model
 from torch.nn.utils import clip_grad_norm_
 from torch.optim import Adam
 import tensorflow as tf
-import absl.logging
-logging.root.removeHandler(absl.logging._absl_handler)
-absl.logging._warn_preinit_stderr = False
 
 import config
 from batcher import Batcher
@@ -123,8 +119,7 @@ class Train(object):
             p2 = np.random.uniform()
             if p2 < beta: # sample the ground truth word
                 target = target_batch[:, di]
-                target_list = config.sample_size*[target]
-                sampled_batch = torch.stack(target_list, 1) # B x S
+                sampled_batch = torch.stack(config.sample_size*[target], 1) # B x S
             else: # randomly sample a word with given probabilities
                 sampled_batch = torch.multinomial(final_dist, config.sample_size, replacement=True) # B x S
             
@@ -145,7 +140,7 @@ class Train(object):
 
         # compute the REINFORCE score        
         nll = torch.sum(torch.stack(nll_list, 2), 2)  # B x S
-        all_rewards, avg_reward = compute_reward(batch, gen_summary, self.vocab, use_cuda) # B x S, 1
+        all_rewards, avg_reward = compute_reward(batch, gen_summary, self.vocab, config.mode, use_cuda) # B x S, 1
         batch_loss = torch.sum(nll * all_rewards, dim=1)  # B
         loss = torch.mean(batch_loss)
 
