@@ -9,7 +9,7 @@ import torch
 import numpy as np
 from model import Model
 from torch.nn.utils import clip_grad_norm_
-from torch.optim import Adam
+from torch.optim import Adam, Adagrad
 import tensorflow as tf
 
 import config
@@ -18,7 +18,6 @@ from data import Vocab
 from utils import calc_running_avg_loss
 from train_util import get_input_from_batch, get_output_from_batch, compute_reward, gen_preds
 from eval import Evaluate
-
 
 use_cuda = config.use_gpu and torch.cuda.is_available()
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.INFO)
@@ -76,7 +75,8 @@ class Train(object):
         params = list(self.model.encoder.parameters()) + list(self.model.decoder.parameters()) + \
                  list(self.model.reduce_state.parameters())
         initial_lr = config.lr_coverage if config.is_coverage else config.lr
-        self.optimizer = Adam(params, lr=initial_lr)
+        # self.optimizer = Adam(params, lr=initial_lr)
+        self.optimizer = Adagrad(params, lr=0.15, initial_accumulator_value=0.1)
 
         start_iter, start_loss = 0, 0
 
@@ -99,10 +99,10 @@ class Train(object):
         s_t_1 = self.model.reduce_state(encoder_hidden)
         
         nll_list= []
-        gen_summary = torch.LongTensor(config.batch_size*[config.sample_size*[[1]]]) # B x S x 1
+        gen_summary = torch.LongTensor(config.batch_size*[config.sample_size*[[2]]]) # B x S x 1
         if use_cuda: gen_summary = gen_summary.cuda()
         preds_y = gen_summary.squeeze(2) # B x S
-        for di in range(config.max_dec_steps):
+        for di in range(min(config.max_dec_steps, dec_batch.size(1))):
             # Select the current input word
             p1 = np.random.uniform()
             if p1 < alpha: # use ground truth word
@@ -178,7 +178,7 @@ class Train(object):
             iter += 1
             
             if iter % config.print_interval == 0:
-                tf.compat.v1.logging.info('steps %d, current_loss: %f, avg_reward: %f' % (iter, loss, avg_reward))
+                print('steps %d, current_loss: %f, avg_reward: %f' % (iter, loss, avg_reward))
             
             if iter % config.save_model_iter == 0:
                 model_file_path = self.save_model(running_avg_loss, iter, mode='train')
@@ -187,9 +187,8 @@ class Train(object):
                 if val_avg_loss < min_val_loss:
                     min_val_loss = val_avg_loss
                     best_model_file_path = self.save_model(running_avg_loss, iter, mode='eval')
-                    tf.compat.v1.logging.info('Save best model at %s'%best_model_file_path)
-                tf.compat.v1.logging.info('steps %d, train_loss: %f, val_loss: %f' 
-                                          % (iter, loss, val_avg_loss))
+                    print('Save best model at %s' % best_model_file_path)
+                print('steps %d, train_loss: %f, val_loss: %f' % (iter, loss, val_avg_loss))
                 # write val_loss into tensorboard
                 loss_sum = tf.compat.v1.Summary()
                 loss_sum.value.add(tag='val_avg_loss', simple_value=val_avg_loss)
