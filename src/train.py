@@ -75,8 +75,10 @@ class Train(object):
         params = list(self.model.encoder.parameters()) + list(self.model.decoder.parameters()) + \
                  list(self.model.reduce_state.parameters())
         initial_lr = config.lr_coverage if config.is_coverage else config.lr
-        # self.optimizer = Adam(params, lr=initial_lr)
-        self.optimizer = Adagrad(params, lr=0.15, initial_accumulator_value=0.1)
+        if config.mode == 'MLE':
+            self.optimizer = Adagrad(params, lr=0.15, initial_accumulator_value=0.1)
+        else:
+            self.optimizer = Adam(params, lr=initial_lr)
 
         start_iter, start_loss = 0, 0
 

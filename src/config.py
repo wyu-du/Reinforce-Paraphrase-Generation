@@ -6,12 +6,11 @@ root_dir = os.path.expanduser("~")
 print_interval = 10
 save_model_iter = 500
 
-train_data_path = os.path.join(root_dir, "Reinforce-PG/data/quora/chunked/train_*")
-eval_data_path = os.path.join(root_dir, "Reinforce-PG/data/quora/chunked/val_*")
-decode_data_path = os.path.join(root_dir, "Reinforce-PG/data/quora/chunked/test_*")
-vocab_path = os.path.join(root_dir, "Reinforce-PG/data/quora/vocab")
-cluster_path = os.path.join(root_dir, "Reinforce-PG/data/quora/paths")
-log_root = os.path.join(root_dir, "Reinforce-PG/log_test")
+train_data_path = os.path.join(root_dir, "Reinforce-PG/data/twitter_url/chunked/train_*")
+eval_data_path = os.path.join(root_dir, "Reinforce-PG/data/twitter_url/chunked/val_*")
+decode_data_path = os.path.join(root_dir, "Reinforce-PG/data/twitter_url/chunked/test_*")
+vocab_path = os.path.join(root_dir, "Reinforce-PG/data/twitter_url/vocab")
+log_root = os.path.join(root_dir, "Reinforce-PG/log_twitter")
 
 # Hyperparameters
 mode = "MLE"
