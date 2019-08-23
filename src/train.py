@@ -166,16 +166,34 @@ class Train(object):
         k2 = config.k2
         delay = 0
         while iter < n_iters:
+            if config.mode == 'RL':
+                alpha = 0.
+                beta = 0.
+            elif config.mode == 'GTI':
+                alpha = 1.
+                beta = 0.
+            elif config.mode == 'SO':
+                alpha = 1.
+                beta = k2/(k2+np.exp((iter-delay)/k2))
+            elif config.mode == 'SIO':
+                alpha *= k1
+                if alpha < 0.01:
+                    beta = k2/(k2+np.exp((iter-delay)/k2))
+                else:
+                    beta = 1.
+                    delay += 1
+            elif config.mode == 'DAGGER':
+                alpha *= k1
+                beta = 1.
+            elif config.mode == 'DAGGER*':
+                alpha = config.alpha
+                beta = 1.
+            else:
+                alpha = 1.
+                beta = 1.
+            
             batch = self.batcher.next_batch()
             loss, avg_reward = self.train_one_batch(batch, alpha, beta)
-            
-            alpha *= k1
-            if alpha < 0.01:
-                beta = k2/(k2+np.exp((iter-delay)/k2))
-            else:
-                beta = 1.
-                delay += 1
-            
             running_avg_loss = calc_running_avg_loss(loss, running_avg_loss, self.summary_writer, iter)
             iter += 1
             
