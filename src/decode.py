@@ -184,14 +184,6 @@ class BeamSearch(object):
                 decoded_words = decoded_words
 
             original_abstracts = batch.original_abstracts_sents[0]
-#            print('Q1: ')
-#            print(batch.original_articles[0])
-#            print('Q2: ')
-#            print(original_abstracts[0])
-#            print('Decoded Q2: ')
-#            print(' '.join(decoded_words))
-#            print('++++++++++++++++++++++++++++++++++++++++++')
-            
             reference = original_abstracts[0].strip().split()
             bleu = nltk.translate.bleu_score.sentence_bleu([reference], decoded_words, weights = (0.5, 0.5))
             bleu_scores.append(bleu)
@@ -206,20 +198,16 @@ class BeamSearch(object):
             batch = self.batcher.next_batch()
         
         print('Average BLEU score:', np.mean(bleu_scores))
+        '''
+        # uncomment this if you successfully install `pyrouge`
         print("Decoder has finished reading dataset for single_pass.")
         print("Now starting ROUGE eval...")
         results_dict = rouge_eval(self._rouge_ref_dir, self._rouge_dec_dir)
         rouge_log(results_dict, self._decode_dir)
+        '''
 
 
 if __name__ == '__main__':
 	model_filename = sys.argv[1]
 	beam_Search_processor = BeamSearch(model_filename)
 	beam_Search_processor.decode()
-    
-#	decode_dir = sys.argv[1]
-#	rouge_ref_dir = os.path.join(decode_dir, "rouge_ref")
-#	rouge_dec_dir = os.path.join(decode_dir, "rouge_dec_dir")
-#	results_dict = rouge_eval(rouge_ref_dir, rouge_dec_dir)
-#	rouge_log(results_dict, decode_dir)
-

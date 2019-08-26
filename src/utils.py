@@ -1,6 +1,7 @@
 # Content of this file is copied from https://github.com/abisee/pointer-generator/blob/master/
 import os
-#import pyrouge
+# uncomment this if you successfully install `pyrouge`
+# import pyrouge
 import logging
 
 def print_results(article, abstract, decoded_output):
