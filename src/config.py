@@ -13,7 +13,7 @@ vocab_path = os.path.join(root_dir, "Reinforce-PG/data/twitter_url/vocab")
 log_root = os.path.join(root_dir, "Reinforce-PG/log_twitter")
 
 # Hyperparameters
-mode = "MLE"
+mode = "MLE"   # other options: RL/GTI/SO/SIO/DAGGER/DAGGER*
 alpha = 1.0
 beta = 1.0
 k1 = 0.9999
