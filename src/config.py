@@ -1,10 +1,10 @@
 import os
 
 root_dir = os.path.expanduser("~")
-#root_dir = os.path.join(root_dir, "Desktop")
+root_dir = os.path.join(root_dir, "Desktop")
 
-print_interval = 10
-save_model_iter = 500
+print_interval = 100
+save_model_iter = 1000
 
 train_data_path = os.path.join(root_dir, "Reinforce-PG/data/twitter_url/chunked/train_*")
 eval_data_path = os.path.join(root_dir, "Reinforce-PG/data/twitter_url/chunked/val_*")
@@ -16,7 +16,7 @@ log_root = os.path.join(root_dir, "Reinforce-PG/log_twitter")
 mode = "MLE"
 alpha = 1.0
 beta = 1.0
-k1 = 1.0
+k1 = 0.9999
 k2 = 3000.
 hidden_dim= 256
 emb_dim= 128
