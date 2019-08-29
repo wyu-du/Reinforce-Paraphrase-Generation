@@ -6,7 +6,7 @@ This repository contains the data and code for the paper ["An Empirical Comparis
 1. Model Setting: modify the path where the model will be saved.
 ```
 vim config.py
-log_root = os.path.join(root_dir, "Reinforce-PG/log_twitter")
+log_root = os.path.join(root_dir, "Reinforce-Paraphrase-Generation/log_twitter")
 ```
 
 2. Pre-train: train the standard pointer-generator model with supervised learning from scratch.
@@ -17,7 +17,7 @@ python train.py
 3. Fine-tune: modify the training mode and the path where the fine-tuned model will be saved.
 ```
 vim config.py
-log_root = os.path.join(root_dir, "Reinforce-PG/log_rl")
+log_root = os.path.join(root_dir, "Reinforce-Paraphrase-Generation/log_rl")
 mode = "RL"
 ```
 Fine tune the pointer-generator model with REINFORCE algorithm.
@@ -30,7 +30,7 @@ python train.py -m ../log_twitter/best_model/model_best_XXXXX
 1. Decoding: first, specify the model path.
 ```
 vim config.py
-log_root = os.path.join(root_dir, "Reinforce-PG/log_twitter")
+log_root = os.path.join(root_dir, "Reinforce-Paraphrase-Generation/log_twitter")
 ```
 Second, apply beam search to generate sentences on test set:
 ```

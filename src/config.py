@@ -6,11 +6,11 @@ root_dir = os.path.join(root_dir, "Desktop")
 print_interval = 100
 save_model_iter = 1000
 
-train_data_path = os.path.join(root_dir, "Reinforce-PG/data/twitter_url/chunked/train_*")
-eval_data_path = os.path.join(root_dir, "Reinforce-PG/data/twitter_url/chunked/val_*")
-decode_data_path = os.path.join(root_dir, "Reinforce-PG/data/twitter_url/chunked/test_*")
-vocab_path = os.path.join(root_dir, "Reinforce-PG/data/twitter_url/vocab")
-log_root = os.path.join(root_dir, "Reinforce-PG/log_twitter")
+train_data_path = os.path.join(root_dir, "Reinforce-Paraphrase-Generation/data/twitter_url/chunked/train_*")
+eval_data_path = os.path.join(root_dir, "Reinforce-Paraphrase-Generation/data/twitter_url/chunked/val_*")
+decode_data_path = os.path.join(root_dir, "Reinforce-Paraphrase-Generation/data/twitter_url/chunked/test_*")
+vocab_path = os.path.join(root_dir, "Reinforce-Paraphrase-Generation/data/twitter_url/vocab")
+log_root = os.path.join(root_dir, "Reinforce-Paraphrase-Generation/log_twitter")
 
 # Hyperparameters
 mode = "MLE"   # other options: RL/GTI/SO/SIO/DAGGER/DAGGER*
